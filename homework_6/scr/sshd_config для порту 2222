@@ -1,0 +1,8 @@
+Описание файла sshd_config для порту 2222
+Port 2222
+PermitRootLogin no
+PubkeyAuthentication yes
+AuthorizedKeysFile      .ssh/authorized_keys
+PasswordAuthentication no
+PermitEmptyPasswords no
+AllowUsers john
