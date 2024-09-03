@@ -1,0 +1,26 @@
+1/5. Створення облікових записів користувачів:/Створення домашніх каталогів:
+sudo su
+useradd -m dev1
+useradd -m dev2
+useradd -m dev3
+2. Створення груп:
+groupadd розробники
+groupadd веб-майстри
+3. Призначення користувачів до груп:
+usermod -aG розробники dev1
+usermod -aG розробники dev2
+usermod -aG веб-майстри dev3
+4. Встановити групу за замовчуванням для користувачів:
+usermod -g розробники dev1
+usermod -g розробники dev2
+6. Клонуйте обліковий запис користувача:
+useradd -m backupdev
+rsync -a /home/dev1/ /home/backupdev/
+7. Налаштування дозволів для спільного проекту:
+mkdir /home/web_project
+chown :розробники /home/web_project
+chmod 760 /home/web_project
+8. Незмінний файл журналу:
+touch /home/my.log
+chattr +a /home/my.log
+chmod 600 /home/my.log
