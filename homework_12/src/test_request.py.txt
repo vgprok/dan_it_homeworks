@@ -1,0 +1,67 @@
+import requests
+import csv
+
+BASE_URL = 'http://127.0.0.1:5000'
+RESULTS_FILE = 'results.txt'
+CSV_FILE = 'students.csv'
+FIELDNAMES = ['id', 'first_name', 'last_name', 'age']
+with open(CSV_FILE, mode='w', newline='') as f:
+    writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+    writer.writeheader()
+
+def log_and_print(text):
+    print(text)
+    with open(RESULTS_FILE, 'a', encoding='utf-8') as f:
+        f.write(text + '\n')
+
+open(RESULTS_FILE, 'w').close()
+
+response = requests.get(f'{BASE_URL}/students')
+log_and_print(f"Initial GET all students: {response.status_code}\n{response.json()}")
+
+students_to_create = [
+    {"first_name": "Vlad", "last_name": "Vladov", "age": 18},
+    {"first_name": "Oleg", "last_name": "Olegov", "age": 20},
+    {"first_name": "Bogdan", "last_name": "Bogdanov", "age": 21}
+]
+
+created_students = []
+for student in students_to_create:
+    response = requests.post(f'{BASE_URL}/students', json=student)
+    data = response.json()
+    created_students.append(data)
+    log_and_print(f"POST create student: {response.status_code}\n{data}")
+
+
+response = requests.get(f'{BASE_URL}/students')
+log_and_print(f"GET all students after creation: {response.status_code}\n{response.json()}")
+
+second_student_id = created_students[1]['id']
+patch_data = {"age": 23}
+response = requests.patch(f'{BASE_URL}/students/id/{second_student_id}', json=patch_data)
+log_and_print(f"PATCH age second student: {response.status_code}\n{response.json()}")
+
+response = requests.get(f'{BASE_URL}/students/id/{second_student_id}')
+log_and_print(f"GET second student: {response.status_code}\n{response.json()}")
+
+third_student_id = created_students[2]['id']
+put_data = {"first_name": "Bogdanes", "last_name": "Bogdanarov", "age": 26}
+response = requests.put(f'{BASE_URL}/students/id/{third_student_id}', json=put_data)
+log_and_print(f"PUT update third student: {response.status_code}\n{response.json()}")
+
+response = requests.get(f'{BASE_URL}/students/id/{third_student_id}')
+log_and_print(f"GET third student: {response.status_code}\n{response.json()}")
+
+response = requests.get(f'{BASE_URL}/students')
+log_and_print(f"GET all students after updates: {response.status_code}\n{response.json()}")
+
+first_student_id = created_students[0]['id']
+response = requests.delete(f'{BASE_URL}/students/id/{first_student_id}')
+log_and_print(f"DELETE first student: {response.status_code}\n{response.json()}")
+
+response = requests.get(f'{BASE_URL}/students')
+try:
+    data = response.json()
+except ValueError:
+    data = response.text
+log_and_print(f"GET all students after delete: {response.status_code}\n{data}")

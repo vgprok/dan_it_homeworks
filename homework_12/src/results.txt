@@ -1,0 +1,24 @@
+Initial GET all students: 200
+[]
+POST create student: 201
+{'age': 18, 'first_name': 'Vlad', 'id': '1', 'last_name': 'Vladov'}
+POST create student: 201
+{'age': 20, 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}
+POST create student: 201
+{'age': 21, 'first_name': 'Bogdan', 'id': '3', 'last_name': 'Bogdanov'}
+GET all students after creation: 200
+[{'age': '18', 'first_name': 'Vlad', 'id': '1', 'last_name': 'Vladov'}, {'age': '20', 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}, {'age': '21', 'first_name': 'Bogdan', 'id': '3', 'last_name': 'Bogdanov'}]
+PATCH age second student: 200
+{'age': 23, 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}
+GET second student: 200
+{'age': '23', 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}
+PUT update third student: 200
+{'age': 26, 'first_name': 'Bogdanes', 'id': '3', 'last_name': 'Bogdanarov'}
+GET third student: 200
+{'age': '26', 'first_name': 'Bogdanes', 'id': '3', 'last_name': 'Bogdanarov'}
+GET all students after updates: 200
+[{'age': '18', 'first_name': 'Vlad', 'id': '1', 'last_name': 'Vladov'}, {'age': '23', 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}, {'age': '26', 'first_name': 'Bogdanes', 'id': '3', 'last_name': 'Bogdanarov'}]
+DELETE first student: 200
+{'message': 'Student with id 1 deleted'}
+GET all students after delete: 200
+[{'age': '23', 'first_name': 'Oleg', 'id': '2', 'last_name': 'Olegov'}, {'age': '26', 'first_name': 'Bogdanes', 'id': '3', 'last_name': 'Bogdanarov'}]
